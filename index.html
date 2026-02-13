@@ -1,613 +1,304 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yManga - SparkMC</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@400;700;900&display=swap"
-        rel="stylesheet">
+    <title>Cassino</title>
     <style>
-        :root {
-            --primary: #0a0a0a;
-            --secondary: #1a1a1a;
-            --accent: #f7df1e;
-            --accent2: #61dafb;
-            --text: #e0e0e0;
-            --text-dim: #888;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--primary);
-            color: var(--text);
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .code-rain {
-            position: absolute;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            color: var(--accent);
-            animation: fall linear infinite;
-            white-space: nowrap;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-100vh);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-
-        /* Hero Section */
-        .hero {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 1;
-            padding: 40px 20px;
+            align-items: center;
+            padding: 20px;
         }
-
-        .profile-section {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            background: var(--secondary);
-            padding: 80px 60px 60px;
-            border-radius: 30px;
-            max-width: 800px;
-            width: 100%;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(247, 223, 30, 0.1);
-            overflow: hidden;
-        }
-
-        /* Banner como fundo do card */
-        .profile-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-size: cover;
-            background-position: center;
-            z-index: 0;
-            opacity: 0.3;
-        }
-
-        .profile-section.has-banner::before {
-            background-image: url('manga.gif');
-            opacity: 0.4;
-        }
-
-        /* Overlay escuro sobre o banner */
-        .profile-section::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 200px;
-            background: linear-gradient(to bottom, transparent 0%, var(--secondary) 100%);
-            z-index: 1;
-        }
-
-        .profile-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .profile-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 5px solid var(--accent);
-            margin: 0 auto 30px;
-            display: block;
-            box-shadow:
-                0 0 30px rgba(247, 223, 30, 0.4),
-                0 20px 40px rgba(0, 0, 0, 0.5);
-            animation: float 3s ease-in-out infinite;
-            object-fit: cover;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .username {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 8vw, 5rem);
-            font-weight: 900;
-            color: var(--accent);
-            margin-bottom: 15px;
-            text-shadow:
-                0 0 20px rgba(247, 223, 30, 0.5),
-                0 0 40px rgba(247, 223, 30, 0.3);
-            letter-spacing: -2px;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-
-            0%,
-            100% {
-                text-shadow: 0 0 20px rgba(247, 223, 30, 0.5), 0 0 40px rgba(247, 223, 30, 0.3);
-            }
-
-            50% {
-                text-shadow: 0 0 30px rgba(247, 223, 30, 0.8), 0 0 60px rgba(247, 223, 30, 0.5);
-            }
-        }
-
-        .description {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--accent2);
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-
-        /* Logo Link */
-        .logo-link {
-            display: inline-block;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .logo-link:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 0 20px rgba(247, 223, 30, 0.5));
-        }
-
-        .logo-image {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 10px;
-        }
-
-        .tech-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(247, 223, 30, 0.1);
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 0 5px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-        }
-
-        /* JavaScript Logos Section */
-        .tech-stack {
-            margin-top: 60px;
-            padding: 0 20px;
-        }
-
-        .tech-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            text-align: center;
-            color: var(--text);
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .tech-title::before {
-            content: '{ ';
-            color: var(--accent);
-        }
-
-        .tech-title::after {
-            content: ' }';
-            color: var(--accent);
-        }
-
-        .logos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 40px;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        .logo-card {
-            background: var(--secondary);
-            padding: 30px;
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .logo-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            padding: 40px;
+            max-width: 500px;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(247, 223, 30, 0.1), transparent);
-            transition: left 0.5s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
-
-        .logo-card:hover::before {
-            left: 100%;
+        
+        h1 {
+            color: #e94560;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
         }
-
-        .logo-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 15px 40px rgba(247, 223, 30, 0.2);
+        
+        .balance {
+            text-align: center;
+            font-size: 1.5em;
+            color: #16213e;
+            margin-bottom: 30px;
+            font-weight: bold;
         }
-
-        .logo-icon {
-            font-size: 4rem;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+        
+        .balance span {
+            color: #27ae60;
         }
-
-        .logo-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #16213e;
             font-weight: 600;
-            color: var(--text);
         }
-
-        /* Code Block Decoration */
-        .code-snippet {
-            background: #1e1e1e;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 60px auto;
-            max-width: 800px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            line-height: 1.8;
-            border: 1px solid rgba(247, 223, 30, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            position: relative;
-        }
-
-        .code-snippet::before {
-            content: '// yManga.js';
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background: var(--secondary);
-            padding: 5px 15px;
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 0.8rem;
-            color: var(--accent);
-            border: 1px solid rgba(247, 223, 30, 0.2);
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
-
-        .code-line {
-            color: var(--text);
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #e94560;
         }
-
-        .keyword {
-            color: #c792ea;
+        
+        .info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-
-        .string {
-            color: #c3e88d;
+        
+        .info p {
+            margin: 5px 0;
+            color: #555;
         }
-
-        .function {
-            color: #82aaff;
+        
+        .info strong {
+            color: #16213e;
         }
-
-        .comment {
-            color: #546e7a;
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #e94560 0%, #d63447 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
-        .property {
-            color: var(--accent);
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
         }
-
-        /* Social Links */
-        .social-section {
-            padding: 60px 20px;
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
         }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 30px;
+        
+        .result.win {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
         }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 30px;
-            background: var(--secondary);
-            border: 2px solid var(--accent);
-            border-radius: 50px;
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-            font-size: 1rem;
+        
+        .result.lose {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
         }
-
-        .social-btn:hover {
-            background: var(--accent);
-            color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(247, 223, 30, 0.3);
+        
+        .history {
+            margin-top: 20px;
+            max-height: 150px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
         }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-dim);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
+        
+        .history-item {
+            padding: 5px;
+            margin: 3px 0;
+            border-radius: 4px;
+            font-size: 14px;
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .profile-section {
-                padding: 60px 30px 40px;
-            }
-
-            .profile-section::before,
-            .profile-section::after {
-                height: 150px;
-            }
-
-            .logos-grid {
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                gap: 20px;
-            }
-
-            .code-snippet {
-                padding: 20px;
-                font-size: 0.85rem;
-            }
+        
+        .history-item.win {
+            background: #d4edda;
+            color: #155724;
         }
-
-        /* Terminal Cursor */
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 1.2em;
-            background: var(--accent);
-            animation: blink 1s infinite;
-            margin-left: 2px;
-        }
-
-        @keyframes blink {
-
-            0%,
-            50% {
-                opacity: 1;
-            }
-
-            51%,
-            100% {
-                opacity: 0;
-            }
+        
+        .history-item.lose {
+            background: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
-
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation" id="bgAnimation"></div>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="profile-section has-banner">
-            <div class="profile-content">
-                <img src="manga.jpg" alt="yManga Profile" class="profile-image">
-                <h1 class="username">yManga</h1>
-                <p class="description">SparkMC</p>
-                
-                <!-- Logo editável - SUBSTITUA o href e src -->
-                <a href="https://discord.com/invite/joguespark" target="_blank" class="logo-link">
-                    <img src="sparknatal.png" alt="Logo" class="logo-image">
-                </a>
-                
-                <div>
-                    <span class="tech-badge">JavaScript</span>
-                </div>
-            </div>
+    <div class="container">
+        <h1>🎰 Cassino</h1>
+        <div class="balance">Saldo: R$ <span id="balance">100</span></div>
+        
+        <div class="input-group">
+            <label for="bet">Valor da Aposta (R$)</label>
+            <input type="number" id="bet" min="1" value="10" step="1">
         </div>
-    </section>
-
-    <!-- Code Snippet -->
-    <div class="code-snippet">
-        <div class="code-line"><span class="keyword">const</span> <span class="property">developer</span> = {</div>
-        <div class="code-line" style="padding-left: 20px;"><span class="property">name</span>: <span
-                class="string">'yManga'</span>,</div>
-        <div class="code-line" style="padding-left: 20px;"><span class="property">role</span>: <span
-                class="string">'SparkMC'</span>,</div>
-        <div class="code-line" style="padding-left: 20px;"><span class="property">skills</span>: [<span
-                class="string">'JavaScript'</span>, <span class="string">'Node.js'</span>, <span
-                class="string">'React'</span>],</div>
-        <div class="code-line" style="padding-left: 20px;"><span class="property">passion</span>: <span
-                class="string">'Code & Create'</span></div>
-        <div class="code-line">};<span class="cursor"></span></div>
+        
+        <div class="info">
+            <p><strong>Chance de ganhar:</strong> <span id="winChanceDisplay">15</span>%</p>
+            <p><strong>Multiplicador:</strong> <span id="multiplier">2.00</span>x</p>
+            <p><strong>Ganho potencial:</strong> R$ <span id="potentialWin">20.00</span></p>
+            <p><strong>Vantagem da casa:</strong> <span id="houseEdge">10.0</span>%</p>
+        </div>
+        
+        <button id="playBtn" onclick="play()">APOSTAR</button>
+        
+        <div class="result" id="result"></div>
+        
+        <div class="history" id="history"></div>
     </div>
-
-    <!-- Tech Stack -->
-    <section class="tech-stack">
-        <h2 class="tech-title">Estudando</h2>
-        <div class="logos-grid">
-            <div class="logo-card">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 256 256" width="80" height="80">
-                        <rect width="256" height="256" fill="#F7DF1E" />
-                        <path
-                            d="M67.312 213.932l19.59-11.856c3.78 6.701 7.218 12.371 15.465 12.371 7.905 0 12.89-3.092 12.89-15.12v-81.798h24.057v82.138c0 24.917-14.606 36.259-35.916 36.259-19.245 0-30.416-9.967-36.087-21.996M152.381 211.354l19.588-11.341c5.157 8.421 11.859 14.607 23.715 14.607 9.969 0 16.325-4.984 16.325-11.858 0-8.248-6.53-11.17-17.528-15.98l-6.013-2.58c-17.357-7.387-28.87-16.667-28.87-36.257 0-18.044 13.747-31.792 35.228-31.792 15.294 0 26.292 5.328 34.196 19.247l-18.732 12.03c-4.125-7.389-8.591-10.31-15.465-10.31-7.046 0-11.514 4.468-11.514 10.31 0 7.217 4.468 10.14 14.778 14.608l6.014 2.577c20.45 8.765 31.963 17.7 31.963 37.804 0 21.654-17.012 33.51-39.867 33.51-22.339 0-36.774-10.654-43.819-24.574"
-                            fill="#000" />
-                    </svg>
-                </div>
-                <span class="logo-name">JavaScript</span>
-            </div>
-
-            <div class="logo-card">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 256 256" width="80" height="80">
-                        <g fill="none">
-                            <rect width="256" height="256" fill="#8CC84B" rx="128" />
-                            <path fill="#FFF"
-                                d="M134.925 164.623c-3.282 0-4.922-.963-6.562-2.889l-20.897-12.382c-3.117-1.763-1.642-2.397-.574-2.762 4.262-1.469 5.111-1.798 9.638-4.359.493-.278.985-.165 1.395.108l16.062 9.529c.576.329 1.478.329 2.054 0l62.595-36.146c.576-.329.986-.987.986-1.645V77.789c0-.658-.41-1.316-.986-1.645l-62.595-36.146c-.576-.329-1.478-.329-2.054 0L71.392 76.144c-.576.329-.986.987-.986 1.645v72.29c0 .658.41 1.316.986 1.645l17.146 9.897c9.309 4.687 15.053-.822 15.053-6.397V83.568c0-.987.74-1.727 1.726-1.727h7.647c.904 0 1.726.823 1.726 1.727v71.632c0 12.464-6.808 19.615-18.614 19.615-3.609 0-6.48 0-14.457-3.938l-16.391-9.446c-4.097-2.397-6.562-6.808-6.562-11.549V77.789c0-4.741 2.465-9.152 6.562-11.549l62.677-36.228c3.936-2.232 9.188-2.232 13.124 0l62.677 36.228c4.097 2.397 6.562 6.808 6.562 11.549v72.29c0 4.741-2.465 9.152-6.562 11.549l-62.677 36.228c-1.97 1.069-4.179 1.727-6.562 1.727zM159.831 124.01c-27.354 0-33.078-12.547-33.078-23.091 0-.987.74-1.809 1.726-1.809h7.729c.904 0 1.644.658 1.644 1.563.986 6.891 4.015 10.335 21.98 10.335 13.536 0 19.26-3.033 19.26-10.335 0-4.194-1.642-7.226-22.638-9.294-17.474-1.727-28.34-5.556-28.34-19.451 0-12.793 10.784-20.43 28.832-20.43 20.32 0 30.269 7.062 31.501 22.091.082.494-.082.987-.493 1.398-.411.411-.904.658-1.478.658h-7.729c-.822 0-1.562-.658-1.644-1.48-1.806-8.06-6.397-10.664-20.073-10.664-14.85 0-16.555 5.145-16.555 9.046 0 4.687 2.054 6.067 21.98 8.713 19.589 2.646 28.914 6.397 28.914 20.019 0 13.877-11.62 21.76-31.826 21.76z" />
-                        </g>
-                    </svg>
-                </div>
-                <span class="logo-name">Node.js</span>
-            </div>
-
-            <div class="logo-card">
-                <div class="logo-icon">
-                    <svg viewBox="0 0 256 256" width="80" height="80">
-                        <g fill="none">
-                            <rect width="256" height="256" fill="#007ACC" rx="128" />
-                            <path fill="#FFF"
-                                d="M56.612 139.666V83.93h86.337v15.166H74.237v10.92h65.482v14.957H74.237v14.693h70.953v15.165H56.612Zm94.56 0V83.931h17.627v55.735h-17.626Zm36.018-20.902c0 8.555 6.26 14.394 13.98 14.394 7.72 0 13.98-5.839 13.98-14.394V83.931h17.626v34.833c0 18.067-13.352 31.49-31.606 31.49-18.254 0-31.606-13.423-31.606-31.49V83.931h17.626v34.833Z" />
-                        </g>
-                    </svg>
-                </div>
-                <span class="logo-name">TypeScript</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Links -->
-    <section class="social-section">
-        <h2 class="tech-title">Connect</h2>
-        <div class="social-links">
-            <a href="https://github.com/mangaJDK" class="social-btn">
-                <span>🐙</span>
-                <span>GitHub</span>
-            </a>
-            <a href="mailto:ymanga.contato@gmail.com" class="social-btn">
-                <span>✉️</span>
-                <span>Email: ymanga.contato@gmail.com </span>
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 yManga </p>
-    </footer>
-
+    
     <script>
-        // Animated background code rain effect
-        function createCodeRain() {
-            const bg = document.getElementById('bgAnimation');
-            const codeSnippets = [
-                'const', 'function', 'return', 'import', 'export',
-                'async', 'await', '=>', '{}', '[]',
-                'if', 'else', 'for', 'while', 'class'
-            ];
-
-            for (let i = 0; i < 20; i++) {
-                const rain = document.createElement('div');
-                rain.className = 'code-rain';
-                rain.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-                rain.style.left = Math.random() * 100 + '%';
-                rain.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                rain.style.animationDelay = Math.random() * 5 + 's';
-                bg.appendChild(rain);
+        let balance = 1000;
+        let history = [];
+        const WIN_CHANCE = 15; // Chance fixa de ganhar
+        
+        function updateInfo() {
+            const bet = parseFloat(document.getElementById('bet').value) || 0;
+            
+            // Multiplicador justo seria 100 / winChance
+            // Mas aplicamos vantagem da casa (house edge) de ~10%
+            const fairMultiplier = 100 / WIN_CHANCE;
+            const houseEdge = 0.10; // 10% de vantagem da casa
+            const multiplier = fairMultiplier * (1 - houseEdge);
+            
+            const potentialWin = bet * multiplier;
+            const actualHouseEdge = ((fairMultiplier - multiplier) / fairMultiplier) * 100;
+            
+            document.getElementById('multiplier').textContent = multiplier.toFixed(2);
+            document.getElementById('potentialWin').textContent = potentialWin.toFixed(2);
+            document.getElementById('houseEdge').textContent = actualHouseEdge.toFixed(1);
+        }
+        
+        function play() {
+            const bet = parseFloat(document.getElementById('bet').value) || 0;
+            
+            // Validações
+            if (bet <= 0) {
+                alert('A aposta deve ser maior que zero!');
+                return;
+            }
+            
+            if (bet > balance) {
+                alert('Saldo insuficiente!');
+                return;
+            }
+            
+            // Jogar
+            const random = Math.random() * 100;
+            const won = random < WIN_CHANCE;
+            
+            const fairMultiplier = 100 / WIN_CHANCE;
+            const houseEdge = 0.10;
+            const multiplier = fairMultiplier * (1 - houseEdge);
+            
+            let resultText;
+            let resultClass;
+            
+            if (won) {
+                const winAmount = bet * multiplier;
+                balance += (winAmount - bet);
+                resultText = `🎉 GANHOU! +R$ ${(winAmount - bet).toFixed(2)}`;
+                resultClass = 'win';
+                
+                history.unshift({
+                    type: 'win',
+                    amount: winAmount - bet,
+                    bet: bet
+                });
+            } else {
+                balance -= bet;
+                resultText = `😢 SE FODEU! -R$ ${bet.toFixed(2)}`;
+                resultClass = 'lose';
+                
+                history.unshift({
+                    type: 'lose',
+                    amount: bet,
+                    bet: bet
+                });
+            }
+            
+            // Atualizar UI
+            document.getElementById('balance').textContent = balance.toFixed(2);
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = resultText;
+            resultDiv.className = `result ${resultClass}`;
+            resultDiv.style.display = 'block';
+            
+            // Atualizar histórico
+            updateHistory();
+            
+            // Verificar se perdeu tudo
+            if (balance <= 0) {
+                setTimeout(() => {
+                    if (confirm('Você perdeu tudo! Quer recomeçar com R$ 1000?')) {
+                        balance = 1000;
+                        document.getElementById('balance').textContent = balance.toFixed(2);
+                        history = [];
+                        updateHistory();
+                    }
+                }, 500);
             }
         }
-
-        createCodeRain();
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Logo card interactions
-        document.querySelectorAll('.logo-card').forEach(card => {
-            card.addEventListener('mouseenter', function () {
-                this.style.transform = 'translateY(-10px) rotate(2deg)';
-            });
-            card.addEventListener('mouseleave', function () {
-                this.style.transform = 'translateY(0) rotate(0deg)';
-            });
-        });
+        
+        function updateHistory() {
+            const historyDiv = document.getElementById('history');
+            historyDiv.innerHTML = history.slice(0, 10).map(item => {
+                const sign = item.type === 'win' ? '+' : '-';
+                const amount = item.type === 'win' ? item.amount : item.amount;
+                return `<div class="history-item ${item.type}">${sign}R$ ${amount.toFixed(2)} (aposta: R$ ${item.bet.toFixed(2)})</div>`;
+            }).join('');
+        }
+        
+        // Event listeners
+        document.getElementById('bet').addEventListener('input', updateInfo);
+        
+        // Inicializar
+        updateInfo();
     </script>
 </body>
-
-
 </html>
